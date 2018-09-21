@@ -1,14 +1,10 @@
 <template>
-    <div id="chat-messages-container">
-        <h2>Messages</h2>
-        <div ref="messagesContainer" id="messages">
-            <chat-message
-                    v-for="message in messages"
-                    v-bind:author="message.author"
-                    v-bind:content="message.content"
-            />
-        </div>
+  <div id="chat-messages-container">
+    <h2>Messages</h2>
+    <div ref="messagesContainer" id="messages">
+      <chat-message v-for="(message, index) in messages" v-bind:author="message.author" v-bind:content="message.content" :key=index />
     </div>
+  </div>
 </template>
 
 <script>
@@ -28,11 +24,11 @@
 </script>
 
 <style scoped lang="scss">
-    #messages {
-        display: flex;
-        flex-direction: column;
-        overflow: auto;
-        height: 190px;
-        border: 1px solid black;
-    }
+#messages {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  height: 190px;
+  border: 1px solid black;
+}
 </style>

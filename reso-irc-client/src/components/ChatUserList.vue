@@ -1,11 +1,8 @@
 <template>
-    <div id="chat-user-list">
-        <h2>Users</h2>
-        <chat-user
-                v-for="user in users"
-                v-bind:nickname="user.nickname"
-        />
-    </div>
+  <div id="chat-user-list">
+    <h2>Users</h2>
+    <chat-user v-for="(user, index) in users" v-bind:nickname="user.nickname" :key=index />
+  </div>
 </template>
 
 <script>
@@ -21,5 +18,4 @@
 </script>
 
 <style scoped>
-
 </style>

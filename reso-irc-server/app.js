@@ -91,16 +91,13 @@ io.on('connection', function (socket) {
 
   app.post("/upload", upload.array('files'), (req, res) => {
     res.json({ files: req.files });
-    socket.on('FILE_UPLOAD', function (content) {
-      socket.emit('MESSAGE', {
-        author: client.nickname,
-        content: content
-      })
-    })
+    console.log(files)
+    client.say(ircConf.globalChannel, content);
+    socket.emit('MESSAGE', {
+      author: client.nickname,
+      content: "Fichier envoyé"
+    });
   })
-
-
-
 
 
   socket.on('disconnect', function () {
