@@ -7,6 +7,7 @@ server = app.listen(3001, function(){
 
 const io = require('socket.io')(server);
 const irc = require('irc');
+const uuid = require('uuid/v1');
 
 let ircConf = {
     server: 'chat.freenode.net',
@@ -16,11 +17,9 @@ let ircConf = {
 let users = [];
 
 io.on('connection', function (socket) {
-    socket.emit('GET_NICKNAME');
-
     let client;
 
-    socket.on('NICKNAME', function (nickname) {
+    socket.on('CONNECT', function (nickname) {
         client = new irc.Client(ircConf.server, nickname, {
             autoConnect: false
         });
@@ -31,27 +30,35 @@ io.on('connection', function (socket) {
             console.log('error: ', message)
         });
 
-        client.connect(() => {
-             client.join(ircConf.globalChannel, () => {
-                 client.addListener('message' + ircConf.globalChannel, function (author, content) {
-                     socket.emit('MESSAGE', {
-                         author: author,
-                         content: content
-                     });
-                 });
+        client.addListener('pm', function (from, message) {
+            socket.emit('PM', {
+                from: from,
+                message: message
+            });
+        });
 
-                 socket.emit('CONNECTED');
-             });
+        client.connect(() => {
+            // TODO: remove when stop using freenode server
+            client.send('MODE', nickname, '-R');
+            client.join(ircConf.globalChannel, () => {
+                socket.emit('CONNECTED');
+            });
         });
     });
 
-    socket.on('SAY', function (content) {
+    // socket.on('SAY', function (content) {
+    //     if (client) {
+    //         client.say(ircConf.globalChannel, content);
+    //         socket.emit('MESSAGE', {
+    //             author: client.nickname,
+    //             content: content
+    //         });
+    //     }
+    // });
+
+    socket.on('PM', function(data) {
         if (client) {
-            client.say(ircConf.globalChannel, content);
-            socket.emit('MESSAGE', {
-                author: client.nickname,
-                content: content
-            });
+            client.say(data.to, data.message);
         }
     });
 
@@ -76,7 +83,7 @@ watchClient.connect(() => {
             users = [];
 
             for (let nickname in nicknames) {
-                if (nicknames.hasOwnProperty(nickname) && nickname !== 'bot_watch') {
+                if (nicknames.hasOwnProperty(nickname) && !nickname.startsWith('bot_watch')) {
                     users.push({ nickname: nickname });
                 }
             }
@@ -106,3 +113,28 @@ watchClient.connect(() => {
     });
 });
 
+
+// let privateRoom = '#' + uuid();
+//
+// let createClient = new irc.Client(ircConf.server, 'bot_create', {
+//     autoConnect: false
+// });
+//
+// let readClient = new irc.Client(ircConf.server, 'bot_read', {
+//     autoConnect: false
+// });
+//
+// createClient.addListener('error', function (message) {
+//     console.log('error: ', message)
+// });
+//
+// readClient.addListener('error', function (message) {
+//     console.log('error: ', message)
+// });
+//
+// createClient.connect(() => {
+//     createClient.join(privateRoom, () => {
+//         createClient.send('MODE', privateRoom, 's');
+//         console.log("done: " + privateRoom);
+//     });
+// });
