@@ -1,9 +1,10 @@
 <template>
     <div id="chat-messages-container">
-        <h2>Messages</h2>
+        <h2>Messages to {{ currentChannel }}</h2>
         <div ref="messagesContainer" id="messages">
             <chat-message
-                    v-for="message in messages"
+                    v-for="(message, key) in messages"
+                    :key="key"
                     v-bind:author="message.author"
                     v-bind:content="message.content"
             />
@@ -19,7 +20,7 @@
         components: {
             ChatMessage
         },
-        props: [ 'messages' ],
+        props: [ 'messages', 'currentChannel' ],
         updated () {
             let messagesContainer = this.$refs.messagesContainer;
             messagesContainer.scrollTop = messagesContainer.scrollHeight;

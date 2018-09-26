@@ -11,6 +11,8 @@
                 v-bind:key="key"
                 v-bind:name="group.name"
                 v-bind:channel="group.channel"
+                v-bind:messages="group.messages"
+                v-bind:currentChannel="currentChannel"
         />
     </div>
 </template>
@@ -29,11 +31,11 @@
             onClickGroup: function (conversation) {
                 this.$emit('click-group', conversation);
             },
-            onCreateGroup: function (name, users) {
-                this.$emit('create-group', name, users);
+            onCreateGroup: function (users) {
+                this.$emit('create-group', users);
             }
         },
-        props: [ 'groups', 'names' ]
+        props: [ 'groups', 'names', 'currentChannel' ]
     }
 </script>
 

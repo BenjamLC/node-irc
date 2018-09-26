@@ -1,6 +1,6 @@
 <template>
     <div id="chat-input">
-        <h2>Écrire - {{ nickname }}</h2>
+        <h2>Écrire</h2>
         <div id="input">
             <textarea rows="3" v-model="content" placeholder="Écrire un message dans le chat"></textarea>
             <button v-on:click="onSendClick" v-bind:disabled="isSendDisabled">
@@ -13,7 +13,7 @@
 <script>
     export default {
         name: 'ChatInput',
-        props: [ 'socketConnected', 'nickname' ],
+        props: [ 'socketConnected' ],
         data() {
             return {
                 content: ''

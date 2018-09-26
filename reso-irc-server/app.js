@@ -14,7 +14,7 @@ let ircConf = {
     globalChannel: '#conserto-reso-test'
 };
 
-let users = [];
+let clients = [];
 
 io.on('connection', function (socket) {
     let client;
@@ -25,6 +25,8 @@ io.on('connection', function (socket) {
         });
 
         client.nickname = nickname;
+        client.groups = [];
+        clients.push(client);
 
         client.addListener('error', function (message) {
             console.log('error: ', message)
@@ -37,6 +39,29 @@ io.on('connection', function (socket) {
             });
         });
 
+        client.addListener('invite', function (channel, from) {
+            let admin = clients.find(client => client.nickname === from);
+            let group = admin.groups.find(group => group.channel === channel);
+
+            client.groups.push({
+                name: group.name,
+                users: group.users,
+                channel: group.channel
+            });
+
+            client.join(channel, () => {
+                client.addListener('message' + group.channel, function (from, message) {
+                    socket.emit('GM', {
+                        name: group.name,
+                        from: from,
+                        message: message
+                    });
+                });
+
+                socket.emit('GROUP_CREATED', group.name);
+            });
+        });
+
         client.connect(() => {
             // TODO: remove when stop using freenode server
             client.send('MODE', nickname, '-R');
@@ -46,19 +71,51 @@ io.on('connection', function (socket) {
         });
     });
 
-    // socket.on('SAY', function (content) {
-    //     if (client) {
-    //         client.say(ircConf.globalChannel, content);
-    //         socket.emit('MESSAGE', {
-    //             author: client.nickname,
-    //             content: content
-    //         });
-    //     }
-    // });
-
-    socket.on('PM', function(data) {
+    socket.on('PM', function (data) {
         if (client) {
             client.say(data.to, data.message);
+        }
+    });
+
+    socket.on('GM', function (data) {
+        if (client) {
+            let group = client.groups.find(group => group.name === data.to);
+
+            client.say(group.channel, data.message);
+        }
+    });
+
+    socket.on('CREATE_GROUP', function (data) {
+        if (client) {
+            let group = {
+                name: data.users.join(', '),
+                users: data.users,
+                channel: '#' + uuid()
+            };
+
+            client.join(group.channel, () => {
+                client.send('MODE', group.channel, 'i');
+
+                group.users.forEach(user => {
+                    if (user !== client.nickname) {
+                        client.send('INVITE', user, group.channel, group.name);
+                    }
+                });
+
+                client.groups.push(group);
+
+                client.addListener('message' + group.channel, function (from, message) {
+                    socket.emit('GM', {
+                        name: group.name,
+                        from: from,
+                        message: message
+                    });
+                });
+
+                console.log(group.name);
+                console.log(group.channel);
+                socket.emit('GROUP_CREATED', group.name);
+            });
         }
     });
 
@@ -66,6 +123,7 @@ io.on('connection', function (socket) {
         client.part(ircConf.globalChannel, () => {
             client.disconnect();
         });
+        clients.splice(clients.indexOf(client), 1);
     });
 });
 
@@ -80,7 +138,7 @@ watchClient.addListener('error', function (message) {
 watchClient.connect(() => {
     watchClient.join(ircConf.globalChannel, () => {
         watchClient.addListener('names' + ircConf.globalChannel, (nicknames) => {
-            users = [];
+            let users = [];
 
             for (let nickname in nicknames) {
                 if (nicknames.hasOwnProperty(nickname) && !nickname.startsWith('bot_watch')) {
@@ -112,29 +170,3 @@ watchClient.connect(() => {
         });
     });
 });
-
-
-// let privateRoom = '#' + uuid();
-//
-// let createClient = new irc.Client(ircConf.server, 'bot_create', {
-//     autoConnect: false
-// });
-//
-// let readClient = new irc.Client(ircConf.server, 'bot_read', {
-//     autoConnect: false
-// });
-//
-// createClient.addListener('error', function (message) {
-//     console.log('error: ', message)
-// });
-//
-// readClient.addListener('error', function (message) {
-//     console.log('error: ', message)
-// });
-//
-// createClient.connect(() => {
-//     createClient.join(privateRoom, () => {
-//         createClient.send('MODE', privateRoom, 's');
-//         console.log("done: " + privateRoom);
-//     });
-// });

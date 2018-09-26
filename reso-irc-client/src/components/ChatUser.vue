@@ -21,7 +21,6 @@
             },
             currentChannel: function () {
                 if (this.currentChannel === this.name) {
-                    console
                     this.newMessage = false;
                 }
             }

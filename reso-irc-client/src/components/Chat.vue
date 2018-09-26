@@ -1,13 +1,13 @@
 <template>
     <div id="chat">
-        <h1>Chat</h1>
+        <h1>Chat as {{ nickname }}</h1>
         <div id="left">
             <chat-user-list v-on:click-user="selectChannel" :users="privateChannels" :currentChannel="currentChannel"/>
-            <chat-group-list v-on:click-group="selectChannel" v-on:create-group="onCreateGroup" :groups="groupChannels" :names="names"/>
+            <chat-group-list v-on:click-group="selectChannel" v-on:create-group="onCreateGroup" :groups="groupChannels" :names="names" :current-channel="currentChannel"/>
         </div>
         <div id="right" v-if="currentChannel">
-            <chat-messages-container :messages="currentChannelMessages"/>
-            <chat-input v-on:say="onSay" :socketConnected="socketConnected" :nickname="nickname"/>
+            <chat-messages-container :messages="currentChannelObject.messages" :currentChannel="currentChannel"/>
+            <chat-input v-on:say="onSay" :socketConnected="socketConnected"/>
         </div>
         socketConnected = {{ socketConnected }}
     </div>
@@ -38,8 +38,8 @@
             }
         },
         computed: {
-            currentChannelMessages: function () {
-                return this.channels.find(channel => channel.name === this.currentChannel).messages;
+            currentChannelObject: function () {
+                return this.channels.find(channel => channel.name === this.currentChannel)
             },
             privateChannels: function () {
                 return this.channels.filter(channel => channel.type === 'private');
@@ -54,10 +54,17 @@
         methods: {
             onSay: function (content) {
                 if (this.socketConnected) {
-                    this.socket.emit('PM', {
-                        to: this.currentChannel,
-                        message: content
-                    });
+                    if (this.currentChannelObject.type === 'private') {
+                        this.socket.emit('PM', {
+                            to: this.currentChannel,
+                            message: content
+                        });
+                    } else if (this.currentChannelObject.type === 'group') {
+                        this.socket.emit('GM', {
+                            to: this.currentChannel,
+                            message: content
+                        });
+                    }
                     this.addMessage(this.currentChannel, this.nickname, content);
                 }
             },
@@ -70,9 +77,11 @@
                     content: content
                 });
             },
-            onCreateGroup: function (name, users) {
-                console.log(name);
-                console.log(users);
+            onCreateGroup: function (users) {
+                users.push(this.nickname);
+                this.socket.emit('CREATE_GROUP', {
+                    'users': users
+                });
             }
         },
         mounted () {
@@ -82,22 +91,35 @@
                 this.socketConnected = true;
             });
             this.socket.on('USER_LIST_UPDATE', (data) => {
-                data = data.filter(user => user.nickname !== this.nickname);
-                this.channels = data.map(user => {
-                    let channel = this.channels.find(channel => channel.name === user.nickname);
-                    if (!(channel)) {
-                        return {
-                            name: user.nickname,
-                            type: 'private',
-                            messages: []
-                        };
-                    } else {
-                        return channel;
-                    }
-                });
+                if (this.socketConnected) {
+                    let groupChannels = this.groupChannels;
+                    data = data.filter(user => user.nickname !== this.nickname);
+                    this.channels = data.map(user => {
+                        let channel = this.channels.find(channel => channel.name === user.nickname);
+                        if (!(channel)) {
+                            return {
+                                name: user.nickname,
+                                type: 'private',
+                                messages: []
+                            };
+                        } else {
+                            return channel;
+                        }
+                    }).concat(groupChannels);
+                }
             });
             this.socket.on('PM', (data) => {
                 this.addMessage(data.from, data.from, data.message);
+            });
+            this.socket.on('GROUP_CREATED', (data) => {
+                this.channels.push({
+                    name: data,
+                    type: 'group',
+                    messages: []
+                });
+            });
+            this.socket.on('GM', (data) => {
+                this.addMessage(data.name, data.from, data.message);
             });
         }
     }
