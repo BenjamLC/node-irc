@@ -1,33 +1,41 @@
 <template>
     <div id="chat-user">
-        <a href="#" v-on:click.prevent="$emit('click-user', name)"><strong v-if="newMessage">(*) </strong><strong>{{ name }}</strong></a>
+        <a href="#" v-on:click.prevent="$emit('click-user', userChannel.id)">
+            <strong v-if="newMessage">(*) </strong><strong>{{ userChannel.name }}</strong>
+        </a>
     </div>
 </template>
 
 <script>
     export default {
         name: "ChatUser",
-        data() {
+        data () {
             return {
                 newMessage: false
             }
         },
-        props: [ 'name', 'messages', 'currentChannel' ],
+        props: [ 'userChannel', 'currentChannel' ],
+        computed: {
+            messages () {
+                return this.userChannel.messages;
+            },
+            currentChannelId () {
+                if (this.currentChannel) {
+                    return this.currentChannel.id;
+                }
+            }
+        },
         watch: {
-            messages: function () {
-                if (this.currentChannel !== this.name) {
+            messages () {
+                if (this.currentChannelId !== this.userChannel.id) {
                     this.newMessage = true;
                 }
             },
-            currentChannel: function () {
-                if (this.currentChannel === this.name) {
+            currentChannelId () {
+                if (this.currentChannelId === this.userChannel.id) {
                     this.newMessage = false;
                 }
             }
         }
     }
 </script>
-
-<style scoped>
-
-</style>

@@ -1,33 +1,41 @@
 <template>
     <div id="chat-group">
-        <a href="#" v-on:click.prevent="$emit('click-group', name)"><strong v-if="newMessage">(*) </strong><strong>{{ name }}</strong></a>
+        <a href="#" v-on:click.prevent="$emit('click-group', groupChannel.id)">
+            <strong v-if="newMessage">(*) </strong><strong>{{ groupChannel.name }}</strong>
+        </a>
     </div>
 </template>
 
 <script>
     export default {
         name: "ChatGroup",
-        data() {
+        data () {
             return {
                 newMessage: false
             }
         },
-        props: [ 'name', 'messages', 'currentChannel' ],
+        props: [ 'groupChannel', 'currentChannel' ],
+        computed: {
+            messages () {
+                return this.groupChannel.messages
+            },
+            currentChannelId () {
+                if (this.currentChannel) {
+                    return this.currentChannel.id
+                }
+            }
+        },
         watch: {
-            messages: function () {
-                if (this.currentChannel !== this.name) {
+            messages () {
+                if (this.currentChannelId !== this.groupChannel.id) {
                     this.newMessage = true;
                 }
             },
-            currentChannel: function () {
-                if (this.currentChannel === this.name) {
+            currentChannelId () {
+                if (this.currentChannelId === this.groupChannel.id) {
                     this.newMessage = false;
                 }
             }
         }
     }
 </script>
-
-<style scoped>
-
-</style>

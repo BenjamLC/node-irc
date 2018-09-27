@@ -3,17 +3,15 @@
         <h2>Groups</h2>
         <chat-create-group
                 v-on:create-group="onCreateGroup"
-                :names="names"
-        />
+                v-bind:availableNicknames="availableNicknames"
+        ></chat-create-group>
         <chat-group
                 v-on:click-group="onClickGroup"
-                v-for="(group, key) in groups"
+                v-for="(groupChannel, key) in groupChannels"
                 v-bind:key="key"
-                v-bind:name="group.name"
-                v-bind:channel="group.channel"
-                v-bind:messages="group.messages"
+                v-bind:groupChannel="groupChannel"
                 v-bind:currentChannel="currentChannel"
-        />
+        ></chat-group>
     </div>
 </template>
 
@@ -27,18 +25,14 @@
             ChatGroup,
             ChatCreateGroup
         },
+        props: [ 'groupChannels', 'currentChannel', 'availableNicknames' ],
         methods: {
-            onClickGroup: function (conversation) {
-                this.$emit('click-group', conversation);
+            onCreateGroup (nicknames) {
+                this.$emit('create-group', nicknames);
             },
-            onCreateGroup: function (users) {
-                this.$emit('create-group', users);
+            onClickGroup (channelId) {
+                this.$emit('click-group', channelId);
             }
-        },
-        props: [ 'groups', 'names', 'currentChannel' ]
+        }
     }
 </script>
-
-<style scoped>
-
-</style>

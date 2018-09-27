@@ -3,10 +3,9 @@
         <h2>Users</h2>
         <chat-user
                 v-on:click-user="onClickUser"
-                v-for="(user, key) in users"
+                v-for="(userChannel, key) in privateChannels"
                 v-bind:key="key"
-                v-bind:name="user.name"
-                v-bind:messages="user.messages"
+                v-bind:userChannel="userChannel"
                 v-bind:currentChannel="currentChannel"
         />
     </div>
@@ -20,15 +19,11 @@
         components: {
             ChatUser
         },
+        props: [ 'privateChannels', 'currentChannel' ],
         methods: {
-            onClickUser: function (conversation) {
-                this.$emit('click-user', conversation);
+            onClickUser (channelId) {
+                this.$emit('click-user', channelId);
             }
-        },
-        props: [ 'users', 'currentChannel' ]
+        }
     }
 </script>
-
-<style scoped>
-
-</style>

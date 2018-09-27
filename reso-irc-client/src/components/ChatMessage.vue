@@ -1,14 +1,14 @@
 <template>
     <div id="chat-message">
-        <strong>{{ author }}</strong><br/>
-        <p>{{ content }}</p>
+        <strong>{{ from }}</strong><br/>
+        <p>{{ message }}</p>
     </div>
 </template>
 
 <script>
     export default {
         name: "ChatMessage",
-        props: [ 'author', 'content' ]
+        props: [ 'from', 'message' ]
     }
 </script>
 

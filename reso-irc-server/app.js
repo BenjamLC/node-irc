@@ -5,14 +5,25 @@ server = app.listen(3001, function(){
     console.log('server listening on port 3001');
 });
 
+/*
+ * IRC
+ *
+ * This server is set to be between an irc server (ngircd for example) and a front using a socket.
+ *
+ * There is two main functionality:
+ * - Private message, use irc private messages
+ * - Group message, create a channel #[uuid] with mode s (secret) and i (invite only) in which will be invited
+ *   all users required by the group creator
+ */
+const config = require('./config');
 const io = require('socket.io')(server);
 const irc = require('irc');
 const uuid = require('uuid/v1');
 
-let ircConf = {
-    server: 'chat.freenode.net',
-    globalChannel: '#conserto-reso-test'
-};
+/* BOTS */
+const UserListBot = require('./bots/UserListBot');
+UserListBot(irc, config, io);
+
 
 let clients = [];
 
@@ -20,11 +31,10 @@ io.on('connection', function (socket) {
     let client;
 
     socket.on('CONNECT', function (nickname) {
-        client = new irc.Client(ircConf.server, nickname, {
+        client = new irc.Client(config.irc.server, nickname, {
             autoConnect: false
         });
 
-        client.nickname = nickname;
         client.groups = [];
         clients.push(client);
 
@@ -40,10 +50,11 @@ io.on('connection', function (socket) {
         });
 
         client.addListener('invite', function (channel, from) {
-            let admin = clients.find(client => client.nickname === from);
+            let admin = clients.find(client => client.nick === from);
             let group = admin.groups.find(group => group.channel === channel);
 
             client.groups.push({
+                id: group.id,
                 name: group.name,
                 users: group.users,
                 channel: group.channel
@@ -52,22 +63,21 @@ io.on('connection', function (socket) {
             client.join(channel, () => {
                 client.addListener('message' + group.channel, function (from, message) {
                     socket.emit('GM', {
-                        name: group.name,
+                        id: group.id,
                         from: from,
                         message: message
                     });
                 });
 
-                socket.emit('GROUP_CREATED', group.name);
+                socket.emit('GROUP_CREATED', {
+                    id: group.id,
+                    name: group.name
+                });
             });
         });
 
         client.connect(() => {
-            // TODO: remove when stop using freenode server
-            client.send('MODE', nickname, '-R');
-            client.join(ircConf.globalChannel, () => {
-                socket.emit('CONNECTED');
-            });
+            socket.emit('CONNECTED');
         });
     });
 
@@ -79,7 +89,7 @@ io.on('connection', function (socket) {
 
     socket.on('GM', function (data) {
         if (client) {
-            let group = client.groups.find(group => group.name === data.to);
+            let group = client.groups.find(group => group.id === data.to);
 
             client.say(group.channel, data.message);
         }
@@ -88,17 +98,20 @@ io.on('connection', function (socket) {
     socket.on('CREATE_GROUP', function (data) {
         if (client) {
             let group = {
+                id: uuid(),
                 name: data.users.join(', '),
-                users: data.users,
-                channel: '#' + uuid()
+                users: data.users
             };
+
+            group.channel = '#' + group.id;
 
             client.join(group.channel, () => {
                 client.send('MODE', group.channel, 'i');
+                client.send('MODE', group.channel, 's');
 
                 group.users.forEach(user => {
-                    if (user !== client.nickname) {
-                        client.send('INVITE', user, group.channel, group.name);
+                    if (user !== client.nick) {
+                        client.send('INVITE', user, group.channel);
                     }
                 });
 
@@ -106,67 +119,25 @@ io.on('connection', function (socket) {
 
                 client.addListener('message' + group.channel, function (from, message) {
                     socket.emit('GM', {
-                        name: group.name,
+                        id: group.id,
                         from: from,
                         message: message
                     });
                 });
 
-                console.log(group.name);
-                console.log(group.channel);
-                socket.emit('GROUP_CREATED', group.name);
+                socket.emit('GROUP_CREATED', {
+                    id: group.id,
+                    name: group.name
+                });
             });
         }
     });
 
     socket.on('disconnect', function () {
-        client.part(ircConf.globalChannel, () => {
-            client.disconnect();
-        });
-        clients.splice(clients.indexOf(client), 1);
-    });
-});
-
-let watchClient = new irc.Client(ircConf.server, 'bot_watch', {
-    autoConnect: false
-});
-
-watchClient.addListener('error', function (message) {
-    console.log('error: ', message)
-});
-
-watchClient.connect(() => {
-    watchClient.join(ircConf.globalChannel, () => {
-        watchClient.addListener('names' + ircConf.globalChannel, (nicknames) => {
-            let users = [];
-
-            for (let nickname in nicknames) {
-                if (nicknames.hasOwnProperty(nickname) && !nickname.startsWith('bot_watch')) {
-                    users.push({ nickname: nickname });
-                }
-            }
-
-            io.emit("USER_LIST_UPDATE", users);
-        });
-
-        watchClient.addListener('join' + ircConf.globalChannel, () => {
-            watchClient.send('NAMES', ircConf.globalChannel);
-        });
-
-        watchClient.addListener('part' + ircConf.globalChannel, () => {
-            watchClient.send('NAMES', ircConf.globalChannel);
-        });
-
-        watchClient.addListener('kick' + ircConf.globalChannel, () => {
-            watchClient.send('NAMES', ircConf.globalChannel);
-        });
-
-        watchClient.addListener('kill', () => {
-            watchClient.send('NAMES', ircConf.globalChannel);
-        });
-
-        watchClient.addListener('quit', () => {
-            watchClient.send('NAMES', ircConf.globalChannel);
-        });
+        if (client) {
+            client.disconnect(() => {
+                clients.splice(clients.indexOf(client), 1);
+            });
+        }
     });
 });
