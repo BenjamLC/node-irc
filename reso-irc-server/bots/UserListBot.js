@@ -2,6 +2,8 @@
  * This bot is used to list all users connected to the server given in config.irc.server
  *
  * Send the client a "CLIENT_LIST_UPDATE" message containing all users nicknames
+ *
+ * This bot use the "WHO" command which return connected users one by one (multiple messages)
  */
 const UserListBot = function (irc, config, io) {
     let bot = new irc.Client(config.irc.server, 'user_list_bot', {

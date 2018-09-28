@@ -1,0 +1,18 @@
+FROM node:9.11.1-alpine
+
+RUN apk update && apk add python g++ make icu-dev && rm -rf /var/cache/apk/*
+
+# make the 'app' folder the current working directory
+WORKDIR /app
+
+# copy both 'package.json' and 'package-lock.json' (if available)
+COPY package*.json ./
+
+# install project dependencies
+RUN npm install
+
+# copy project files and folders to the current working directory (i.e. 'app' folder)
+COPY . .
+
+EXPOSE 3001
+CMD [ "node", "app.js" ]

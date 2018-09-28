@@ -1,0 +1,504 @@
+# LDAP schema
+
+# id=00000001
+dn: dc=conserto,dc=pro
+objectClass: organization
+objectClass: dcObject
+dc: conserto
+o: conserto
+structuralObjectClass: organization
+entryUUID: 8bbaf192-2c92-1035-9664-ef3a10c7e315
+creatorsName: cn=admin,dc=conserto,dc=pro
+createTimestamp: 20151201161556Z
+entryCSN: 20151201161556.179638Z#000000#000#000000
+modifiersName: cn=admin,dc=conserto,dc=pro
+modifyTimestamp: 20151201161556Z
+contextCSN: 20180205081526.728289Z#000000#000#000000
+
+# id=00000002
+dn: ou=utilisateurs,dc=conserto,dc=pro
+objectClass: organizationalUnit
+ou: utilisateurs
+structuralObjectClass: organizationalUnit
+entryUUID: 8bd118aa-2c92-1035-9665-ef3a10c7e315
+creatorsName: cn=admin,dc=conserto,dc=pro
+createTimestamp: 20151201161556Z
+entryCSN: 20160624133321.577674Z#000000#000#000000
+modifiersName: cn=admin,dc=conserto,dc=pro
+modifyTimestamp: 20160624133321Z
+
+# id=00000003
+dn: ou=Departements,dc=conserto,dc=pro
+objectClass: organizationalUnit
+ou: Departements
+structuralObjectClass: organizationalUnit
+entryUUID: 8bd4af10-2c92-1035-9666-ef3a10c7e315
+creatorsName: cn=admin,dc=conserto,dc=pro
+createTimestamp: 20151201161556Z
+entryCSN: 20151201161556.348329Z#000000#000#000000
+modifiersName: cn=admin,dc=conserto,dc=pro
+modifyTimestamp: 20151201161556Z
+
+# id=00000004
+dn: sambaDomainName=BLACKSTAR,dc=conserto,dc=pro
+objectClass: sambaDomain
+sambaAlgorithmicRidBase: 1000
+sambaSID: S-1-5-21-4190892528-1300506447-2269759660
+sambaDomainName: BLACKSTAR
+sambaMinPwdLength: 0
+sambaPwdHistoryLength: 0
+structuralObjectClass: sambaDomain
+entryUUID: 4cbf0544-2d25-1035-9399-39202d58b275
+creatorsName: cn=admin,dc=conserto,dc=pro
+createTimestamp: 20151202094626Z
+entryCSN: 20151202094626.529156Z#000000#000#000000
+modifiersName: cn=admin,dc=conserto,dc=pro
+modifyTimestamp: 20151202094626Z
+
+# id=000000bf
+dn: ou=Agences,dc=conserto,dc=pro
+objectClass: organizationalUnit
+objectClass: top
+structuralObjectClass: organizationalUnit
+entryUUID: dae55100-183b-1036-9be7-69a2b85a2a3a
+creatorsName: cn=admin,dc=conserto,dc=pro
+createTimestamp: 20160926134957Z
+ou: Agences
+entryCSN: 20170327144917.335312Z#000000#000#000000
+modifiersName: cn=admin,dc=conserto,dc=pro
+modifyTimestamp: 20170327144917Z
+
+# id=000000bf
+dn: ou=Maisons,dc=conserto,dc=pro
+objectClass: organizationalUnit
+objectClass: top
+structuralObjectClass: organizationalUnit
+entryUUID: dae55100-183b-1036-9be7-69a2b85a2a3b
+creatorsName: cn=admin,dc=conserto,dc=pro
+createTimestamp: 20160926134957Z
+ou: Maisons
+entryCSN: 20170327144917.335312Z#000000#000#000000
+modifiersName: cn=admin,dc=conserto,dc=pro
+modifyTimestamp: 20170327144917Z
+
+
+
+
+# DEPARTEMENTS
+
+# id=000000cd
+dn: cn=Ressources Humaines,ou=Departements,dc=conserto,dc=pro
+structuralObjectClass: groupOfNames
+entryUUID: 5a4ec9a4-a747-1036-9f61-713522d541e2
+creatorsName: cn=admin,dc=conserto,dc=pro
+createTimestamp: 20170327144231Z
+cn: Ressources Humaines
+gidNumber: 10007
+objectClass: groupOfNames
+objectClass: top
+objectClass: posixGroup
+member: dc=conserto,dc=pro
+entryCSN: 20180103084046.303680Z#000000#000#000000
+modifiersName: cn=admin,dc=conserto,dc=pro
+modifyTimestamp: 20180103084046Z
+
+# id=000000ce
+dn: cn=Consultants,ou=Departements,dc=conserto,dc=pro
+cn: Consultants
+structuralObjectClass: groupOfNames
+entryUUID: a362154c-a747-1036-9f62-713522d541e2
+creatorsName: cn=admin,dc=conserto,dc=pro
+createTimestamp: 20170327144434Z
+gidNumber: 10002
+objectClass: groupOfNames
+objectClass: top
+objectClass: posixGroup
+member: dc=conserto,dc=pro
+entryCSN: 20180205081913.083616Z#000000#000#000000
+modifiersName: cn=admin,dc=conserto,dc=pro
+modifyTimestamp: 20180205081913Z
+
+# id=000000cf
+dn: cn=Direction,ou=Departements,dc=conserto,dc=pro
+cn: Direction
+structuralObjectClass: groupOfNames
+entryUUID: d4c6fd64-a747-1036-9f63-713522d541e2
+creatorsName: cn=admin,dc=conserto,dc=pro
+createTimestamp: 20170327144557Z
+gidNumber: 10004
+objectClass: groupOfNames
+objectClass: top
+objectClass: posixGroup
+member: dc=conserto,dc=pro
+entryCSN: 20170327150006.735059Z#000000#000#000000
+modifiersName: cn=admin,dc=conserto,dc=pro
+modifyTimestamp: 20170327150006Z
+
+# id=000000d0
+dn: cn=Direction Technique,ou=Departements,dc=conserto,dc=pro
+cn: Direction Technique
+structuralObjectClass: groupOfNames
+entryUUID: fb36d4c4-a747-1036-9f64-713522d541e2
+creatorsName: cn=admin,dc=conserto,dc=pro
+createTimestamp: 20170327144701Z
+gidNumber: 10005
+objectClass: groupOfNames
+objectClass: top
+objectClass: posixGroup
+member: dc=conserto,dc=pro
+entryCSN: 20170327145918.609199Z#000000#000#000000
+modifiersName: cn=admin,dc=conserto,dc=pro
+modifyTimestamp: 20170327145918Z
+
+# id=000000d1
+dn: cn=Communication,ou=Departements,dc=conserto,dc=pro
+cn: Communication
+structuralObjectClass: groupOfNames
+entryUUID: 1f7454a6-a748-1036-9f65-713522d541e2
+creatorsName: cn=admin,dc=conserto,dc=pro
+createTimestamp: 20170327144802Z
+gidNumber: 10001
+objectClass: groupOfNames
+objectClass: top
+objectClass: posixGroup
+member: dc=conserto,dc=pro
+entryCSN: 20170327145840.131209Z#000000#000#000000
+modifyTimestamp: 20170327145840Z
+modifiersName: cn=admin,dc=conserto,dc=pro
+
+# id=000000d2
+dn: cn=Commerce,ou=Departements,dc=conserto,dc=pro
+cn: Commerce
+structuralObjectClass: groupOfNames
+entryUUID: 6ccd35e2-a748-1036-9f67-713522d541e2
+creatorsName: cn=admin,dc=conserto,dc=pro
+createTimestamp: 20170327145012Z
+gidNumber: 10000
+objectClass: groupOfNames
+objectClass: top
+objectClass: posixGroup
+member: dc=conserto,dc=pro
+entryCSN: 20170731151749.395648Z#000000#000#000000
+modifyTimestamp: 20170731151749Z
+modifiersName: cn=admin,dc=conserto,dc=pro
+
+
+# id=000000d9
+dn: cn=Administratif,ou=Departements,dc=conserto,dc=pro
+objectClass: groupOfNames
+objectClass: top
+structuralObjectClass: groupOfNames
+entryUUID: 151984c2-a806-1036-9f6e-713522d54113
+creatorsName: cn=admin,dc=conserto,dc=pro
+createTimestamp: 20170328132749Z
+member: dc=conserto,dc=pro
+cn: Administratif
+entryCSN: 20180124094046.086232Z#000000#000#000000
+modifiersName: cn=admin,dc=conserto,dc=pro
+modifyTimestamp: 20180124094046Z
+
+
+
+# AGENCES
+
+dn: cn=Nantes,ou=Agences,dc=conserto,dc=pro
+cn: Nantes
+objectClass: groupOfNames
+objectClass: top
+structuralObjectClass: groupOfNames
+entryUUID: 87511884-a748-1036-9f68-713522d541e2
+creatorsName: cn=admin,dc=conserto,dc=pro
+createTimestamp: 20170327145056Z
+member: dc=conserto,dc=pro
+entryCSN: 20171130103623.936248Z#000000#000#000000
+modifyTimestamp: 20171130103623Z
+modifiersName: cn=admin,dc=conserto,dc=pro
+
+
+# id=000000d5
+dn: cn=Toulouse,ou=Agences,dc=conserto,dc=pro
+cn: Toulouse
+objectClass: groupOfNames
+objectClass: top
+structuralObjectClass: groupOfNames
+entryUUID: 87511884-a748-1036-9f68-713522d541e3
+creatorsName: cn=admin,dc=conserto,dc=pro
+createTimestamp: 20170327145056Z
+member: dc=conserto,dc=pro
+member: cn=Justin DERNIER,ou=utilisateurs,dc=conserto,dc=pro
+entryCSN: 20171130103623.936248Z#000000#000#000000
+modifyTimestamp: 20171130103623Z
+modifiersName: cn=admin,dc=conserto,dc=pro
+
+# id=000000d6
+dn: cn=Niort,ou=Agences,dc=conserto,dc=pro
+cn: Niort
+objectClass: groupOfNames
+objectClass: top
+structuralObjectClass: groupOfNames
+entryUUID: b81e0c9c-a748-1036-9f6b-713522d54110
+creatorsName: cn=admin,dc=conserto,dc=pro
+createTimestamp: 20170327145218Z
+member: cn=Michel LE GRAND,ou=utilisateurs,dc=conserto,dc=pro
+member: dc=conserto,dc=pro
+entryCSN: 20180118132718.172255Z#000000#000#000000
+modifiersName: cn=admin,dc=conserto,dc=pro
+modifyTimestamp: 20180118132717Z
+
+# id=000000d7
+dn: cn=Montpellier,ou=Agences,dc=conserto,dc=pro
+cn: Montpellier
+objectClass: groupOfNames
+objectClass: top
+structuralObjectClass: groupOfNames
+entryUUID: c1155cb0-a748-1036-9f6c-713522d54111
+creatorsName: cn=admin,dc=conserto,dc=pro
+createTimestamp: 20170327145233Z
+member: dc=conserto,dc=pro
+member: dc=conserto,dc=pro
+entryCSN: 20180104081918.055551Z#000000#000#000000
+modifyTimestamp: 20180104081918Z
+modifiersName: cn=admin,dc=conserto,dc=pro
+
+# id=000000d8
+dn: cn=Paris,ou=Agences,dc=conserto,dc=pro
+cn: Paris
+objectClass: groupOfNames
+objectClass: top
+structuralObjectClass: groupOfNames
+entryUUID: c8b9bf60-a748-1036-9f6d-713522d54112
+creatorsName: cn=admin,dc=conserto,dc=pro
+createTimestamp: 20170327145246Z
+member: dc=conserto,dc=pro
+member: cn=Patrick MARTIN,ou=utilisateurs,dc=conserto,dc=pro
+entryCSN: 20171214130407.161583Z#000000#000#000000
+modifiersName: cn=admin,dc=conserto,dc=pro
+modifyTimestamp: 20171214130407Z
+
+# MAISONS
+
+dn: cn=Dragon,ou=Maisons,dc=conserto,dc=pro
+cn: Dragon
+objectClass: groupOfNames
+objectClass: top
+structuralObjectClass: groupOfNames
+entryUUID: 87511884-a748-1036-9f68-71352dd541e3
+creatorsName: cn=admin,dc=conserto,dc=pro
+createTimestamp: 20170327145056Z
+member: dc=conserto,dc=pro
+entryCSN: 20171130103624.936248Z#000000#000#000000
+modifyTimestamp: 20171130103623Z
+modifiersName: cn=admin,dc=conserto,dc=pro
+
+dn: cn=Hydre,ou=Maisons,dc=conserto,dc=pro
+cn: Hydre
+objectClass: groupOfNames
+objectClass: top
+structuralObjectClass: groupOfNames
+entryUUID: 87511884-a748-1036-9f68-71352dd541e4
+creatorsName: cn=admin,dc=conserto,dc=pro
+createTimestamp: 20170327145056Z
+member: dc=conserto,dc=pro
+entryCSN: 20171130103625.936248Z#000000#000#000000
+modifyTimestamp: 20171130103623Z
+modifiersName: cn=admin,dc=conserto,dc=pro
+
+dn: cn=Licorne,ou=Maisons,dc=conserto,dc=pro
+cn: Licorne
+objectClass: groupOfNames
+objectClass: top
+structuralObjectClass: groupOfNames
+entryUUID: 87511884-a748-1036-9f68-71352dd541e5
+creatorsName: cn=admin,dc=conserto,dc=pro
+createTimestamp: 20170327145056Z
+member: dc=conserto,dc=pro
+member: cn=Michel LE GRAND,ou=utilisateurs,dc=conserto,dc=pro
+entryCSN: 20171130103626.936248Z#000000#000#000000
+modifyTimestamp: 20171130103623Z
+modifiersName: cn=admin,dc=conserto,dc=pro
+
+dn: cn=Gryffon,ou=Maisons,dc=conserto,dc=pro
+cn: Gryffon
+objectClass: groupOfNames
+objectClass: top
+structuralObjectClass: groupOfNames
+entryUUID: 87511884-a748-1036-9f68-71352dd541e6
+creatorsName: cn=admin,dc=conserto,dc=pro
+createTimestamp: 20170327145056Z
+member: dc=conserto,dc=pro
+member: cn=Patrick MARTIN,ou=utilisateurs,dc=conserto,dc=pro
+entryCSN: 20171130103627.936248Z#000000#000#000000
+modifyTimestamp: 20171130103623Z
+modifiersName: cn=admin,dc=conserto,dc=pro
+
+dn: cn=Phoenix,ou=Maisons,dc=conserto,dc=pro
+cn: Phoenix
+objectClass: groupOfNames
+objectClass: top
+structuralObjectClass: groupOfNames
+entryUUID: 87511884-a748-1036-9f68-71352dd541e7
+creatorsName: cn=admin,dc=conserto,dc=pro
+createTimestamp: 20170327145056Z
+member: dc=conserto,dc=pro
+member: cn=Justin DERNIER,ou=utilisateurs,dc=conserto,dc=pro
+entryCSN: 20171130103628.936248Z#000000#000#000000
+modifyTimestamp: 20171130103623Z
+modifiersName: cn=admin,dc=conserto,dc=pro
+
+
+
+# UTILISATEURS
+
+
+# id=000000c0
+dn: cn=foo BAR,ou=utilisateurs,dc=conserto,dc=pro
+objectClass: sambaSamAccount
+objectClass: posixAccount
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+sambaDomainName: BLACKSTAR
+sambaHomeDrive: U:
+sambaKickoffTime: 1893452400
+sambaAcctFlags: [XU         ]
+displayName: foo BAR
+homeDirectory: /home/foo.bar
+loginShell: /bin/bash
+gidNumber: 10000
+cn: foo BAR
+uidNumber: 10265
+sn: BAR
+givenName: foo
+structuralObjectClass: inetOrgPerson
+entryUUID: 68595272-258c-1036-9bfa-69a2b85a2a3a
+creatorsName: cn=admin,dc=conserto,dc=pro
+createTimestamp: 20161013122919Z
+uid: foo.bar
+sambaSID: S-1-5-21-4190892528-1300506447-2269759660-21512
+mail: admin.conserto@consertotech.pro
+description:: TkUgUEFTIFNVUFBSSU1FUlV0aWxpc2F0ZXVyIGZpY3RpZiB1dGlsaXPDqSBwb3
+ VyIHBldXBsZXIgbGVzIGdyb3VwT2ZOYW1lcyB2aWRlcw==
+memberOf: cn=Consultants,ou=Departements,dc=conserto,dc=pro
+sambaNTPassword: 88755B966E1697D55F52FE4EFE9E9D28
+sambaPwdLastSet: 1504266839
+userPassword:: e1NTSEF9dGh5OFUwelhjRHdpWmJEcFVGeEJXTTNyTVFRTHBHUHF0Z3E1dlE9P
+ Q==
+entryCSN: 20171002081317.834177Z#000000#000#000000
+modifiersName: cn=admin,dc=conserto,dc=pro
+modifyTimestamp: 20171002081317Z
+
+
+# id=00000185
+dn: cn=Homer SIMPSON,ou=utilisateurs,dc=conserto,dc=pro
+uid: homer.simpson
+mail: homer.simpson@consertotech.pro
+givenName: Homer
+sn: Simpson
+cn: Homer SIMPSON
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+userPassword: {SSHA}cZrgk7xxZObbXQgquq+5ETa3I7DG1KYI
+structuralObjectClass: inetOrgPerson
+entryUUID: f151ce0c-9e98-1037-846d-b1d99c253e12
+creatorsName: cn=admin,dc=conserto,dc=pro
+createTimestamp: 20180205081851Z
+entryCSN: 20180205081851.497368Z#000000#000#000000
+modifyTimestamp: 20180205081851Z
+memberOf: cn=Consultants,ou=Departements,dc=conserto,dc=pro
+memberOf: cn=Nantes,ou=Agences,dc=conserto,dc=pro
+memberOf: cn=Dragon,ou=Maisons,dc=conserto,dc=pro
+modifiersName: cn=admin,dc=conserto,dc=pro
+
+# id=00000185
+dn: cn=Aurélien BARCQ,ou=utilisateurs,dc=conserto,dc=pro
+uid: aurelien.barcq
+mail: aurelien.barcq@consertotech.pro
+givenName: Aurélien
+sn: Barcq
+cn: Aurélien BARCQ
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+userPassword: {SSHA}OKgmAzQ2ntzsGW7yUT8C0Y+xdYD3UY4R
+structuralObjectClass: inetOrgPerson
+entryUUID: f151ce0c-9e98-1037-846d-b1d99c253e12
+creatorsName: cn=admin,dc=conserto,dc=pro
+createTimestamp: 20180205081851Z
+entryCSN: 20180205081851.497368Z#000000#000#000000
+modifyTimestamp: 20180205081851Z
+memberOf: cn=Consultants,ou=Departements,dc=conserto,dc=pro
+memberOf: cn=Nantes,ou=Agences,dc=conserto,dc=pro
+memberOf: cn=Dragon,ou=Maisons,dc=conserto,dc=pro
+modifiersName: cn=admin,dc=conserto,dc=pro
+
+# id=00000185
+dn: cn=Patrick MARTIN,ou=utilisateurs,dc=conserto,dc=pro
+uid: patrick.martin
+mail: patrick.martin@consertotech.pro
+givenName: Patrick
+sn: Martin
+cn: Patrick MARTIN
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+userPassword: {SSHA}OKgmAzQ2ntzsGW7yUT8C0Y+xdYD3UY4R
+structuralObjectClass: inetOrgPerson
+entryUUID: f151ce0c-9e98-1037-846d-b1d99c253e12
+creatorsName: cn=admin,dc=conserto,dc=pro
+createTimestamp: 20180205081851Z
+entryCSN: 20180205081851.497368Z#000000#000#000000
+modifyTimestamp: 20180205081851Z
+memberOf: cn=Consultants,ou=Departements,dc=conserto,dc=pro
+memberOf: cn=Paris,ou=Agences,dc=conserto,dc=pro
+memberOf: cn=Gryffon,ou=Maisons,dc=conserto,dc=pro
+modifiersName: cn=admin,dc=conserto,dc=pro
+
+# id=00000185
+dn: cn=Michel LE GRAND,ou=utilisateurs,dc=conserto,dc=pro
+uid: michel.legrand
+mail: michel.legrand@consertotech.pro
+givenName: Michel
+sn: Le Grand
+cn: Michel LE GRAND
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+userPassword: {SSHA}OKgmAzQ2ntzsGW7yUT8C0Y+xdYD3UY4R
+structuralObjectClass: inetOrgPerson
+entryUUID: f151ce0c-9e98-1037-846d-b1d99c253e12
+creatorsName: cn=admin,dc=conserto,dc=pro
+createTimestamp: 20180205081851Z
+entryCSN: 20180205081851.497368Z#000000#000#000000
+modifyTimestamp: 20180205081851Z
+memberOf: cn=Consultants,ou=Departements,dc=conserto,dc=pro
+memberOf: cn=Toulouse,ou=Agences,dc=conserto,dc=pro
+memberOf: cn=Licorne,ou=Maisons,dc=conserto,dc=pro
+modifiersName: cn=admin,dc=conserto,dc=pro
+
+# id=00000185
+dn: cn=Justin DERNIER,ou=utilisateurs,dc=conserto,dc=pro
+uid: justin.dernier
+mail: justin.dernier@consertotech.pro
+givenName: Justin
+sn: Dernier
+cn: Justin DERNIER
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+userPassword: {SSHA}OKgmAzQ2ntzsGW7yUT8C0Y+xdYD3UY4R
+structuralObjectClass: inetOrgPerson
+entryUUID: f151ce0c-9e98-1037-846d-b1d99c253e12
+creatorsName: cn=admin,dc=conserto,dc=pro
+createTimestamp: 20180205081851Z
+entryCSN: 20180205081851.497368Z#000000#000#000000
+modifyTimestamp: 20180205081851Z
+memberOf: cn=Consultants,ou=Departements,dc=conserto,dc=pro
+memberOf: cn=Montpellier,ou=Agences,dc=conserto,dc=pro
+memberOf: cn=Phenix,ou=Maisons,dc=conserto,dc=pro
+modifiersName: cn=admin,dc=conserto,dc=pro

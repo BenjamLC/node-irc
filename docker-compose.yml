@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+    ldap:
+        build: .docker/ldap
+        container_name: reso-irc_ldap
+        stdin_open: true
+        tty: true
+        ports:
+            - 389:389
+
+    irc:
+        build: .docker/irc
+        container_name: reso-irc_irc
+        ports:
+            - 6667:6667
+        volumes:
+            - .docker/irc/config/ngircd.conf:/etc/ngircd/ngircd.conf
+        depends_on:
+            - ldap
+        networks:
+            express-irc:
+                aliases:
+                    - reso-irc.local
+
+    vue:
+        build:
+            context: reso-irc-client
+            dockerfile: .docker/vue/Dockerfile
+        container_name: reso-irc_vue
+        ports:
+            - 8080:8080
+        depends_on:
+            - express
+
+    express:
+        build:
+            context: reso-irc-server
+            dockerfile: .docker/express/Dockerfile
+        container_name: reso-irc_express
+        ports:
+            - 3001:3001
+        depends_on:
+          - irc
+        networks:
+          - express-irc
+
+networks:
+    express-irc:
+        driver: bridge

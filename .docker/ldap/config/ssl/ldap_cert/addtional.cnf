@@ -1,0 +1,9 @@
+cat <<-EOF >additional.cnf
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = ldap
+DNS.2 = ldap.conserto.pro
+IP = 178.32.220.190
+
+EOF
