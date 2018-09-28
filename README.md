@@ -24,7 +24,7 @@ L'étape suivante est de se connecter au serveur IRC via les identifiants LDAP.
 
 Le but est que les utilisateurs ne puisses se connecter a la messagerie instantanée que s'il sont authentifier par le LDAP.
 
-> Pour les utilisateurs se connectant via client IRC -> Identifiants LDAP
+> Pour les utilisateurs se connectant via client IRC -> Identifiants LDAP. Il faut donc se renseigner sur les manière de connecter un serveur IRC avec un LDAP.
 
 > Pour les utilisateurs se connectant via Le Reso, il faut se poser plus de questions:
 il n'est pas possible d'envoyer les identifiants LDAP de l'utilisateur au serveur Express sans les lui redemander (nécessiterait un stockage du mdp, puis envoi via la websocket)
